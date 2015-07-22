@@ -1,11 +1,14 @@
 
 var runTests = function(){
 
+    var noMsg = function(){
+        console.info("-----------NO Message should follow---------------");
+    };
     var oneMsg = function(){
-        console.log("-----------ONE Message should follow---------------");
+        console.info("-----------ONE Message should follow---------------");
     };
     var twoMsg = function(){
-        console.log("-----------TWO Messages should follow:---------------");
+        console.info("-----------TWO Messages should follow:---------------");
     }
 
     var Player = function(name){
@@ -34,8 +37,10 @@ var runTests = function(){
     var p1 = new Player("Arnold");
     var p2 = new Player("Brutus");
 
-    MtEventHandler.makeEvented(p1);
-    MtEventHandler.makeEvented(p2);
+    var eventHandler = new MtEventHandler();
+
+    eventHandler.makeEvented(p1);
+    eventHandler.makeEvented(p2);
 
     p1.setFriend(p2);
     p2.setFriend(p1);
@@ -58,7 +63,7 @@ var runTests = function(){
     //----------------------------------------------------------------------------
     console.log("..............................................................");
 
-    var c1 = MtEventHandler.createChannel("one");
+    var c1 = eventHandler.createChannel("one");
     var c1a = c1.listen(function(obj){
         console.log("listening to channel1 playing", obj.info);
     });
@@ -73,7 +78,7 @@ var runTests = function(){
     c1.ignore(c1a);
     c1.broadcast({info: "wonderwall"});
 
-    var c2 = MtEventHandler.createChannel("two");
+    var c2 = eventHandler.createChannel("two");
     var c2a = c2.listen(function(obj){
         console.log("c2 and listening to channel1 playing", obj.info);
     });
@@ -88,5 +93,8 @@ var runTests = function(){
     c2.ignore(c2a);
     c2.broadcast({info: "nickelback"});
 
+    noMsg();
+    c2.ignore(c2b);
+    c2.broadcast({info: "nothing"});
 
 };
