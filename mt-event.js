@@ -36,7 +36,9 @@ var MtEventHandler = function MtEventHandler(){
             return function(eventName, infoObj){
                 var eventMap = this[propertyName];
                 if(!eventMap || !(eventMap instanceof Object)) throw TypeError("This is not an mt-Evented Object!");
-                // if this is the first event with this name, create new array for this event type
+                // abort if there are no subscriptions on this event
+                if(!eventMap[eventName]) return;
+                // call all subscriptions
                 eventMap[eventName].forEach(function(func){
                     !!func && func(infoObj);
                 });
